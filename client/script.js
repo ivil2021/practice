@@ -84,7 +84,6 @@ function createTodoDOMElement(testTodo) {
     let todo = todoList.getElementById(id);
 
     //---//---//---//---//
-    //---//---//---//---//
     fetch("http://localhost:3333/todos/" + id, {
       method: "PUT",
       body: JSON.stringify(todo),
@@ -97,9 +96,6 @@ function createTodoDOMElement(testTodo) {
       todosArrLengthUpdate(todoList);
     });
     //---//---//---//---//
-    //---//---//---//---//
-
-    // Save todoList content to localstorage
   });
 
   return todoDOMElement;

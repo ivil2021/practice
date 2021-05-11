@@ -44,7 +44,7 @@ router.put("/todos/:id", (req, res) => {
   //update todo isDone value for a specific todo item (id: req.params.id)
   let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
 
-  const found = todos.find((element) => element.id == req.params.id);
+  const found = todos.find((element) => element.id == req.params.id); // Search for the certain element by his id
 
   found.isDone = !req.body._isDone;
 
@@ -55,6 +55,10 @@ router.put("/todos/:id", (req, res) => {
 
 router.delete("/todos/:id", (req, res) => {
   //remove todo item (id: req.params.id)
+  let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
+
+  const found = todos.find((element) => element.id == req.params.id); // Search for the certain element by his id
+
   res.status(201).end();
 });
 
