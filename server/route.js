@@ -1,32 +1,57 @@
 //global modules
-const express = require('express');
+const express = require("express");
+
+////////////////////////
+const fs = require("fs");
+////////////////////////
 
 //rest code...
 const router = express.Router();
 
-router.get('/todos', (req, res) => {
-  const todos = require('./data/todos.json');
-  res.json(todos);
+////////////////////////////////////////////////////////////
+// Create readTodos function to read and parse
+const readTodos = () => {
+  const data = fs.readFileSync("./data/todos.json"); // Read file and put it to data
+  const todos = JSON.parse(data); // Transform data and put it to todos
+  return todos; // Return todos from a server to a client
+};
+////////////////////////////////////////////////////////////
+
+// Request for todos
+router.get("/todos", (req, res) => {
+  let todos = readTodos(); // Read file and put it to todos
+  res.json(todos); // Send todos as a response from a server to a client
 });
 
-router.post('/todos', (req, res) => {
-    //add todo to todos.json
-    res.status(201).end()
-  });
+// Send some info to a server
+router.post("/todos", (req, res) => {
+  let { todos } = readTodos(); // Read file and put it to todos
 
-  router.put('/todos/:id', (req, res) => {
-    //update todo isDone value for a specific todo item (id: req.params.id)
-    res.status(201).end()
-  });
+  const todo = {
+    id: todos[todos.length - 1].id + 1, // Take the id of the last element of array and increase it + 1
+    name: req.body.name,
+    isDone: req.body._isDone,
+  };
 
+  todos.push(todo);
 
-  router.delete('/todos/:id', (req, res) => {
-    //remove todo item (id: req.params.id)
-    res.status(201).end()
-  });
+  fs.writeFileSync("./data/todos.json", JSON.stringify({ todos }));
 
-  router.delete('/todos', (req, res) => {
-    //clear todos.json
-    res.status(201).end()
-  });
+  res.json(todo);
+});
+
+router.put("/todos/:id", (req, res) => {
+  //update todo isDone value for a specific todo item (id: req.params.id)
+  res.status(201).end();
+});
+
+router.delete("/todos/:id", (req, res) => {
+  //remove todo item (id: req.params.id)
+  res.status(201).end();
+});
+
+router.delete("/todos", (req, res) => {
+  //clear todos.json
+  res.status(201).end();
+});
 module.exports = router;

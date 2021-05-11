@@ -98,18 +98,31 @@ function createTodoDOMElement(testTodo) {
 addBtn.addEventListener("click", (e) => {
   // Update data structures
   let testTodo = new Todo(input.value);
-  todoList.addElement(testTodo);
 
-  // Reset input
-  input.value = "";
+  fetch("http://localhost:3333/todos", {
+    method: "POST",
+    body: JSON.stringify(testTodo),
+    headers: {
+      "Content-Type": "application/json", // It's necessary
+    },
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((res) => {
+      todoList.addElement(testTodo);
 
-  let todoDOMElement = createTodoDOMElement(testTodo);
+      // Reset input
+      input.value = "";
 
-  // Add todo item DOM element (with events attached) in to todo list DOM element
-  todoListContainer.appendChild(todoDOMElement);
+      let todoDOMElement = createTodoDOMElement(testTodo);
 
-  localStorage.setItem("todo", JSON.stringify(todoList)); // Transform from JSON string to array
-  todosArrLengthUpdate(todoList);
+      // Add todo item DOM element (with events attached) in to todo list DOM element
+      todoListContainer.appendChild(todoDOMElement);
+
+      todosArrLengthUpdate(todoList);
+    })
+    .catch((error) => console.log(error));
 });
 
 function toggleTodosVisibility(visibleTodosIds) {
@@ -160,7 +173,7 @@ function todosArrLengthUpdate(todos) {
   total.textContent = l + " tasks left";
 }
 
-fetch("http://localhost:3333/todos");
+/* fetch("http://localhost:3333/todos");
 const otherParam = {
   method: "DELETE",
 };
@@ -172,4 +185,4 @@ fetch("http://localhost:3333/todos", otherParam)
   .then((res) => {
     console.log(res);
   })
-  .catch((error) => console.log(error));
+  .catch((error) => console.log(error)); */
