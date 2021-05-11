@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "name": "Learn HTML/CSS",
+      "isDone": true
+    },
+    {
+      "id": 2,
+      "name": "Learn JS",
+      "isDone": true
+    },
+    {
+      "id": 3,
+      "name": "Learn ExpressJS",
+      "isDone": false
+    }
+  ]
+}

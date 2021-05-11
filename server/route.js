@@ -25,7 +25,7 @@ router.get("/todos", (req, res) => {
 
 // Send some info to a server
 router.post("/todos", (req, res) => {
-  let { todos } = readTodos(); // Read file and put it to todos
+  let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
 
   const todo = {
     id: todos[todos.length - 1].id + 1, // Take the id of the last element of array and increase it + 1
@@ -42,6 +42,14 @@ router.post("/todos", (req, res) => {
 
 router.put("/todos/:id", (req, res) => {
   //update todo isDone value for a specific todo item (id: req.params.id)
+  let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
+
+  const found = todos.find((element) => element.id == req.params.id);
+
+  found.isDone = !req.body._isDone;
+
+  fs.writeFileSync("./data/todos.json", JSON.stringify({ todos }));
+
   res.status(201).end();
 });
 

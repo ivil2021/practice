@@ -13,7 +13,7 @@ const serverContent = fetch("http://localhost:3333/todos")
   .then((data) => {
     todosArr = data.todos;
     todosArr.forEach((el) => {
-      const todo = new Todo(el.name, el._isDone, el._id);
+      const todo = new Todo(el.name, el.isDone, el.id);
       todoList.addElement(todo);
     });
 
@@ -80,15 +80,26 @@ function createTodoDOMElement(testTodo) {
 
   // Toggle class completed
   todoDOMElement.addEventListener("click", (e) => {
-    e.target.classList.toggle("li-completed");
-
-    let id = parseInt(e.target.id, 10); // parseInt returns integer number
+    let id = parseInt(e.target.id, 10); // parseInt returns an integer number
     let todo = todoList.getElementById(id);
-    todo.toggle(!todo.isDone);
+
+    //---//---//---//---//
+    //---//---//---//---//
+    fetch("http://localhost:3333/todos/" + id, {
+      method: "PUT",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+      },
+    }).then((res) => {
+      e.target.classList.toggle("li-completed");
+      todo.toggle(!todo.isDone);
+      todosArrLengthUpdate(todoList);
+    });
+    //---//---//---//---//
+    //---//---//---//---//
 
     // Save todoList content to localstorage
-    localStorage.setItem("todo", JSON.stringify(todoList)); // Transform from JSON string to array
-    todosArrLengthUpdate(todoList);
   });
 
   return todoDOMElement;
@@ -103,7 +114,7 @@ addBtn.addEventListener("click", (e) => {
     method: "POST",
     body: JSON.stringify(testTodo),
     headers: {
-      "Content-Type": "application/json", // It's necessary
+      "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
     },
   })
     .then((data) => {
