@@ -57,7 +57,8 @@ function createTodoDOMElement(testTodo) {
         method: "DELETE",
         body: JSON.stringify(todoList),
         headers: {
-          "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+          // It's necessary to point out the certain type of the text "application/json"
+          "Content-Type": "application/json",
         },
       }).then(() => {
         todosArrLengthUpdate(todoList);
@@ -166,8 +167,22 @@ document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
   if (confirm("Are you sure?")) {
     // Confirmation window for deleting todos
     todoList.clear();
-    localStorage.clear("todo");
+    // localStorage.clear("todo");
     todoListContainer.innerHTML = "";
+
+    //---//---//---//---//
+    fetch("http://localhost:3333/todos/", {
+      method: "DELETE",
+      body: JSON.stringify(todoList),
+      headers: {
+        // It's necessary to point out the certain type of the text "application/json"
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      todosArrLengthUpdate(todoList);
+    });
+    //---//---//---//---//
+
     todosArrLengthUpdate(todoList);
   }
 });

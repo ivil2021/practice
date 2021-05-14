@@ -50,6 +50,7 @@ router.put("/todos/:id", (req, res) => {
   res.status(201).end(); // adding an element to the end of array
 });
 
+// Delete the certain element
 router.delete("/todos/:id", (req, res) => {
   //remove todo item (id: req.params.id)
   let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
@@ -64,8 +65,14 @@ router.delete("/todos/:id", (req, res) => {
   res.status(204).end(); // response from a server
 });
 
+// Clear all
 router.delete("/todos", (req, res) => {
   //clear todos.json
-  res.status(201).end();
+  // let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
+
+  fs.writeFileSync("./data/todos.json", "");
+
+  res.status(204).end(); // response from a server
 });
+
 module.exports = router;
