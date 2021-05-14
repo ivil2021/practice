@@ -26,22 +26,6 @@ const serverContent = fetch("http://localhost:3333/todos")
     });
   });
 
-// let LSContent = localStorage.getItem('todo');
-// if (LSContent) {
-//   todosArr = JSON.parse(LSContent).list;
-//   todosArr.forEach(el => {
-//     const todo = new Todo(el.name, el._isDone, el._id);
-//     todoList.addElement(todo);
-//   })
-// }
-// todosArrLengthUpdate(todoList);
-
-// const list = todoList.getTodos();
-// list.forEach(todoItem => {
-//   let el = createTodoDOMElement(todoItem);
-//   todoListContainer.appendChild(el);
-// })
-
 function createTodoDOMElement(testTodo) {
   // Create a todo item DOM element
   let todoDOMElement = document.createElement("li");
@@ -68,8 +52,18 @@ function createTodoDOMElement(testTodo) {
       todoList.removeElement(id); // Removing from data
       document.getElementById(id).remove(); // Removing from html
 
-      // Save todoList content to localstorage
-      localStorage.setItem("todo", JSON.stringify(todoList)); // Transform from JSON string to array
+      //---//---//---//---//
+      fetch("http://localhost:3333/todos/" + id, {
+        method: "DELETE",
+        body: JSON.stringify(todoList),
+        headers: {
+          "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+        },
+      }).then(() => {
+        todosArrLengthUpdate(todoList);
+      });
+      //---//---//---//---//
+
       todosArrLengthUpdate(todoList);
     }
 
@@ -114,15 +108,18 @@ addBtn.addEventListener("click", (e) => {
     },
   })
     .then((data) => {
+      console.log(data);
       return data.json();
     })
     .then((res) => {
-      todoList.addElement(testTodo);
+      const todo = new Todo(res.name, res.isDone, res.id);
+      console.log(res);
+      todoList.addElement(todo);
 
       // Reset input
       input.value = "";
 
-      let todoDOMElement = createTodoDOMElement(testTodo);
+      let todoDOMElement = createTodoDOMElement(todo);
 
       // Add todo item DOM element (with events attached) in to todo list DOM element
       todoListContainer.appendChild(todoDOMElement);
@@ -179,17 +176,3 @@ function todosArrLengthUpdate(todos) {
   l = todos.filterByStatus(ACTIVE).length;
   total.textContent = l + " tasks left";
 }
-
-/* fetch("http://localhost:3333/todos");
-const otherParam = {
-  method: "DELETE",
-};
-
-fetch("http://localhost:3333/todos", otherParam)
-  .then((data) => {
-    return data.json();
-  })
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((error) => console.log(error)); */
