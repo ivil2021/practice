@@ -9,7 +9,8 @@ const router = express.Router();
 // Create readTodos function to read and parse
 const readTodos = () => {
   const data = fs.readFileSync("./data/todos.json"); // Read file and put it to data
-  const todos = JSON.parse(data); // Transform data and put it to todos
+  let todos = JSON.parse(data); // Transform data and put it to todos
+
   return todos; // Return todos from a server to a client
 };
 
@@ -24,7 +25,7 @@ router.post("/todos", (req, res) => {
   let { todos } = readTodos(); // Read a file and put it to the { todos } (key is todos and value is todos)
 
   const todo = {
-    id: todos[todos.length - 1].id + 1, // Take the id of the last element of array and increase it + 1
+    id: todos.length ? todos[todos.length - 1].id + 1 : 1, // Take the id of the last element of array and increase it + 1,
     name: req.body.name,
     isDone: req.body._isDone,
   };
@@ -53,12 +54,14 @@ router.put("/todos/:id", (req, res) => {
 // Delete the certain element
 router.delete("/todos/:id", (req, res) => {
   //remove todo item (id: req.params.id)
-  let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
+  // Read file and put it to { todos } (key is todos and value is todos)
+  let { todos } = readTodos();
 
-  const found = todos.find((element) => element.id == req.params.id); // Search for the certain element by it's id
-  // found --- the certain element element, that was founded by it's id
+  // found - the certain element element, that was founded by it's id
+  const found = todos.find((element) => element.id == req.params.id);
 
-  let remainTodos = todos.filter((item) => item.id != found.id); // todos without the certain element
+  // remainTodos - todos without the certain element
+  let remainTodos = todos.filter((item) => item.id != found.id);
 
   fs.writeFileSync("./data/todos.json", JSON.stringify({ todos: remainTodos }));
 
@@ -67,10 +70,12 @@ router.delete("/todos/:id", (req, res) => {
 
 // Clear all
 router.delete("/todos", (req, res) => {
-  //clear todos.json
-  // let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
+  // Clear todos.json
 
-  fs.writeFileSync("./data/todos.json", "");
+  // Create data and init it with an empty array
+  let data = { todos: [] };
+
+  fs.writeFileSync("./data/todos.json", JSON.stringify(data));
 
   res.status(204).end(); // response from a server
 });
