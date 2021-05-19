@@ -1,35 +1,67 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <!-- Loading in the core app library, which we need for everything -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+    <!-- Loading in the firestore service from firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
 
-<body>
-  <div class="wrap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
 
-    <div id="myDIV" class="header">
-      <h2>TodoList</h2>
-      <input type="text" id="input" placeholder=" Enter your task ...">
-      <button id="addBtn">Add</button>
+  <body>
+    <div class="wrap">
+      <div id="myDIV" class="header">
+        <h2>TodoList</h2>
+        <input type="text" id="input" placeholder=" Enter your task ..." />
+        <button id="addBtn">Add</button>
+      </div>
+
+      <ul id="todo-list-container"></ul>
+
+      <div class="footer">
+        <span id="total"> tasks left</span>
+
+        <button class="activeBtn">Active</button>
+        <button id="completed" class="completedBtn">Completed</button>
+        <button class="AllBtn">All</button>
+        <button class="clearAllBtn">Clear All</button>
+      </div>
     </div>
 
-    <ul id="todo-list-container"></ul>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
 
-    <div class="footer">
-      <span id="total"> tasks left</span>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
 
-      <button class="activeBtn">Active</button>
-      <button id="completed" class="completedBtn">Completed</button>
-      <button class="AllBtn">All</button>
-      <button class="clearAllBtn">Clear All</button>
-    </div>
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      // Creating an object with some info, that firebase needs to figure out how we are connecting to the data store
+      var firebaseConfig = {
+        apiKey: "AIzaSyDJ_XScTmXCLFo6gbK4jq8Fl1HJPhE9LzQ",
+        authDomain: "mytodolist-73622.firebaseapp.com",
+        projectId: "mytodolist-73622",
+        storageBucket: "mytodolist-73622.appspot.com",
+        messagingSenderId: "861284124697",
+        appId: "1:861284124697:web:c06211d3ece0a7c214c288",
+        measurementId: "G-FP4R25EP62",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
 
-  </div>
+      // Use db everytime we want to interact with our database
+      const db = firebase.firestore();
 
-  <script src="test.js"></script>
-  <script src="script.js"></script>
-</body>
+      // To don't get warnings in the console
+      db.settings({ timestampsInSnapshots: true });
+    </script>
 
+    <script src="test.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -3,7 +3,7 @@ const addBtn = document.querySelector("#addBtn");
 const todoListContainer = document.querySelector("#todo-list-container");
 const total = document.querySelector("#total");
 
-let l = 0; // Number of elements in localStorage
+let l = 0; // Number of elements in my todoList
 let todosArr = [];
 
 let todoList = new TodoList();
@@ -52,7 +52,6 @@ function createTodoDOMElement(testTodo) {
       todoList.removeElement(id); // Removing from data
       document.getElementById(id).remove(); // Removing from html
 
-      //---//---//---//---//
       fetch("http://localhost:3333/todos/" + id, {
         method: "DELETE",
         body: JSON.stringify(todoList),
@@ -63,7 +62,6 @@ function createTodoDOMElement(testTodo) {
       }).then(() => {
         todosArrLengthUpdate(todoList);
       });
-      //---//---//---//---//
 
       todosArrLengthUpdate(todoList);
     }
@@ -78,7 +76,6 @@ function createTodoDOMElement(testTodo) {
     let id = parseInt(e.target.id, 10); // parseInt returns an integer number
     let todo = todoList.getElementById(id);
 
-    //---//---//---//---//
     fetch("http://localhost:3333/todos/" + id, {
       method: "PUT",
       body: JSON.stringify(todo),
@@ -90,7 +87,6 @@ function createTodoDOMElement(testTodo) {
       todo.toggle(!todo.isDone);
       todosArrLengthUpdate(todoList);
     });
-    //---//---//---//---//
   });
 
   return todoDOMElement;
@@ -170,7 +166,6 @@ document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
     // localStorage.clear("todo");
     todoListContainer.innerHTML = "";
 
-    //---//---//---//---//
     fetch("http://localhost:3333/todos/", {
       method: "DELETE",
       body: JSON.stringify(todoList),
@@ -181,7 +176,6 @@ document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
     }).then(() => {
       todosArrLengthUpdate(todoList);
     });
-    //---//---//---//---//
 
     todosArrLengthUpdate(todoList);
   }
@@ -191,3 +185,16 @@ function todosArrLengthUpdate(todos) {
   l = todos.filterByStatus(ACTIVE).length;
   total.textContent = l + " tasks left";
 }
+
+// FIREBASE
+// FIREBASE
+// FIREBASE
+// snapshot is what we receive when we call this method db.collection("MyTodoList").get()
+// snapshot is a representation of the different data from our collection
+db.collection("MyTodoList")
+  .get()
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      console.log(doc.data());
+    });
+  });
