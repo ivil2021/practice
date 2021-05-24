@@ -3,7 +3,7 @@ const addBtn = document.querySelector("#addBtn");
 const todoListContainer = document.querySelector("#todo-list-container");
 const total = document.querySelector("#total");
 
-let l = 0; // Number of elements in my todoList
+let activeTasksNumber = 0; // Number of elements in my todoList
 let todosArr = [];
 
 let todoList = new TodoList();
@@ -38,7 +38,8 @@ function createTodoDOMElement(testTodo) {
   }
 
   // Look at mouse events / target / path / parent node
-  let delBtnDOMElement = document.createElement("button"); // Create Del button at the end of the task
+  // Create Del button at the end of the task
+  let delBtnDOMElement = document.createElement("button");
   delBtnDOMElement.className = "btn-delete-todo"; // Attach class to the button
   delBtnDOMElement.textContent = "Del"; // Add text Del to the button
 
@@ -66,7 +67,7 @@ function createTodoDOMElement(testTodo) {
       todosArrLengthUpdate(todoList);
     }
 
-    l = todosArr.length;
+    activeTasksNumber = todosArr.length;
   });
 
   todoDOMElement.appendChild(delBtnDOMElement); // Add Del button to the list element
@@ -80,7 +81,8 @@ function createTodoDOMElement(testTodo) {
       method: "PUT",
       body: JSON.stringify(todo),
       headers: {
-        "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+        // It's necessary to point out the certain type of the text "application/json"
+        "Content-Type": "application/json",
       },
     }).then((res) => {
       e.target.classList.toggle("li-completed");
@@ -101,7 +103,8 @@ addBtn.addEventListener("click", (e) => {
     method: "POST",
     body: JSON.stringify(testTodo),
     headers: {
-      "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+      // It's necessary to point out the certain type of the text "application/json"
+      "Content-Type": "application/json",
     },
   })
     .then((data) => {
@@ -182,19 +185,49 @@ document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
 });
 
 function todosArrLengthUpdate(todos) {
-  l = todos.filterByStatus(ACTIVE).length;
-  total.textContent = l + " tasks left";
+  activeTasksNumber = todos.filterByStatus(ACTIVE).length;
+  total.textContent = activeTasksNumber + " tasks left";
 }
 
-// FIREBASE
-// FIREBASE
-// FIREBASE
+//----------- FIREBASE ----------//
+//----------- FIREBASE ----------//
+//----------- FIREBASE ----------//
+
+const todoListFirebase = document.querySelector("#todo-list-container");
+
+// create an element and render todos
+function renderTodos(doc) {
+  // create a new li tag
+  let li = document.createElement("li");
+
+  // create new span tag
+  let id = document.createElement("span");
+  let name = document.createElement("span");
+
+  // setting id from the firebase document to the certain element
+  li.setAttribute("data-id", "doc.id");
+
+  // set the text content of each element
+  id.textContent = doc.data().id;
+  name.textContent = doc.data().name; // Learn HTML for example
+
+  // add an element to the list element
+  li.appendChild(id);
+  li.appendChild(name);
+
+  // add a li element to the todoListFirebase
+  todoListFirebase.appendChild(li);
+}
+
 // snapshot is what we receive when we call this method db.collection("MyTodoList").get()
 // snapshot is a representation of the different data from our collection
 db.collection("MyTodoList")
   .get()
   .then((snapshot) => {
+    // cycling through each document on a snapshot, calling the renderTodos function
+    // and passing the individual document so we can render it to the DOM
     snapshot.docs.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
+      renderTodos(doc);
     });
   });
