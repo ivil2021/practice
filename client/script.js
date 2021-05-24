@@ -8,7 +8,8 @@ let todosArr = [];
 
 let todoList = new TodoList();
 
-const serverContent = fetch("http://localhost:3333/todos")
+// const serverContent = fetch("http://localhost:3333/todos")
+const serverContent = fetch("MyTodoList")
   .then((res) => res.json())
   .then((data) => {
     todosArr = data.todos;
@@ -53,7 +54,8 @@ function createTodoDOMElement(testTodo) {
       todoList.removeElement(id); // Removing from data
       document.getElementById(id).remove(); // Removing from html
 
-      fetch("http://localhost:3333/todos/" + id, {
+      // fetch("http://localhost:3333/todos/" + id, {
+      fetch("MyTodoList" + id, {
         method: "DELETE",
         body: JSON.stringify(todoList),
         headers: {
@@ -77,7 +79,8 @@ function createTodoDOMElement(testTodo) {
     let id = parseInt(e.target.id, 10); // parseInt returns an integer number
     let todo = todoList.getElementById(id);
 
-    fetch("http://localhost:3333/todos/" + id, {
+    // fetch("http://localhost:3333/todos/" + id, {
+    fetch("MyTodoList" + id, {
       method: "PUT",
       body: JSON.stringify(todo),
       headers: {
@@ -99,7 +102,8 @@ addBtn.addEventListener("click", (e) => {
   // Update data structures
   let testTodo = new Todo(input.value);
 
-  fetch("http://localhost:3333/todos", {
+  // fetch("http://localhost:3333/todos", {
+  fetch("MyTodoList", {
     method: "POST",
     body: JSON.stringify(testTodo),
     headers: {
@@ -169,7 +173,8 @@ document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
     // localStorage.clear("todo");
     todoListContainer.innerHTML = "";
 
-    fetch("http://localhost:3333/todos/", {
+    // fetch("http://localhost:3333/todos/", {
+    fetch("MyTodoList", {
       method: "DELETE",
       body: JSON.stringify(todoList),
       headers: {
