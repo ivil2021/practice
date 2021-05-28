@@ -250,6 +250,40 @@ function renderTodos(doc) {
       }
     });
   }
+
+  // Toggle class completed
+  li.addEventListener('click', (e) => {
+    let id = parseInt(e.target.id, 10); // parseInt returns an integer number
+    let todo = todoList.getElementById(id);
+    console.log(todo);
+    //console.log(todo);
+
+    ///////
+    e.target.classList.toggle('li-completed');
+    //todo.toggle(!todo.isDone);
+    //todosArrLengthUpdate(todoList);
+    /*     if (todo.isDone) {
+      todo.isDone = !todo.isDone;
+    } else {
+      todo.isDone = !todo.isDone;
+    } */
+    //////
+
+    //console.log(todoList);
+    //console.log(todo.isDone);
+    //todo.isDone = !todo.isDone;
+  });
+
+  //----- Update data -----//
+  li.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let id = parseInt(e.target.id, 10);
+    // let id = e.target.parentElement.id;
+    // console.log(id);
+    // db.collection('MyTodoList').doc(id).update({
+    //   isDone: !e.target.parentElement.isDone,
+    // });
+  });
 }
 
 //----- Add button -----//
@@ -262,11 +296,16 @@ addBtn.addEventListener('click', (e) => {
   input.value = ''; // Clear input field
 });
 
+//----- REAL TIME DATABASE CHANGES -----//
+//----- REAL TIME DATABASE CHANGES -----//
+//----- REAL TIME DATABASE CHANGES -----//
 // Real-time listener
 // Reacts on every single change in Firebase
 db.collection('MyTodoList').onSnapshot((snapshot) => {
   let changes = snapshot.docChanges();
+  console.log(changes);
 
+  // Adding a task
   changes.forEach((change) => {
     if (change.type === 'added') {
       let data = change.doc.data(); // Saving added changes to data
@@ -278,6 +317,7 @@ db.collection('MyTodoList').onSnapshot((snapshot) => {
       return renderTodos(change.doc);
     }
 
+    // Deleting the certain task
     if (change.type === 'removed') {
       todoList.removeElement(change.doc.id);
 
@@ -285,9 +325,14 @@ db.collection('MyTodoList').onSnapshot((snapshot) => {
 
       return;
     }
+
+    // Update data
+    if (change.type === 'changed') {
+      return;
+    }
   });
 
-  console.log(todoList.getTodos());
+  //console.log(todoList.getTodos());
 
   todosArrLengthUpdate(todoList);
 });
