@@ -289,9 +289,15 @@ db.collection("MyTodoList").onSnapshot((snapshot) => {
 
     // Deleting the certain task
     if (change.type === "removed") {
-      todoList.removeElement(change.doc.id);
+      todoList.removeElement(change.doc.id); // Removing from data
 
-      document.getElementById(change.doc.id).remove(); // Removing from html
+      // document.getElementById(change.doc.id).remove(); // Removing from html
+
+      // There was a mistake "can not read a property of null"
+      // If was added
+      if (document.getElementById(change.doc.id) != null) {
+        document.getElementById(change.doc.id).remove(); // Removing from html
+      }
 
       return;
 
@@ -312,3 +318,111 @@ db.collection("MyTodoList").onSnapshot((snapshot) => {
 
   todosArrLengthUpdate(todoList);
 });
+
+//----------------------------------------//
+//----------------------------------------//
+//----------------------------------------//
+//----------------------------------------//
+//----------------------------------------//
+function toggleTodosVisibility(visibleTodosIds) {
+  todoList.getTodos().forEach((todo) => {
+    let el = document.getElementById(todo.id);
+    if (!visibleTodosIds.includes(todo.id)) {
+      el.classList.add("hidden");
+    } else {
+      el.classList.remove("hidden");
+    }
+  });
+}
+
+//-- Active button --//
+// Work with Active button event
+document.querySelector(".activeBtn").addEventListener("click", (e) => {
+  let visibleTodosIds = todoList.filterByStatus(ACTIVE).map((item) => item.id);
+  toggleTodosVisibility(visibleTodosIds);
+});
+
+//-- Completed button --//
+// Work with Completed button event
+document.querySelector(".completedBtn").addEventListener("click", (e) => {
+  let visibleTodosIds = todoList
+    .filterByStatus(COMPLETED)
+    .map((item) => item.id);
+  toggleTodosVisibility(visibleTodosIds);
+});
+
+//-- All button --//
+// Work with All button event
+document.querySelector(".AllBtn").addEventListener("click", (e) => {
+  let visibleTodosIds = todoList.filterByStatus(ALL).map((item) => item.id);
+  toggleTodosVisibility(visibleTodosIds);
+});
+
+//-- Clear All button --//
+// Work with Clear All button event
+// Use a querySelector with .clearAllBtn class to make sure that we work with the Clear All button
+document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
+  // Confirmation window for deleting todos
+  if (confirm("Are you sure?")) {
+    todoList.clear();
+    todoListContainer.innerHTML = ""; // Clear ul
+
+    // fetch("http://localhost:3333/todos/", {
+    // // fetch("MyTodoList", {
+    //   method: "DELETE",
+    //   body: JSON.stringify(todoList),
+    //   headers: {
+    //     // It's necessary to point out the certain type of the text "application/json"
+    //     "Content-Type": "application/json",
+    //   },
+    // }).then(() => {
+    //   todosArrLengthUpdate(todoList);
+    // });
+
+    todosArrLengthUpdate(todoList);
+
+    // Deleting all documents from my collection
+    db.collection("MyTodoList")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          // console.log(doc.data());
+          console.log(doc.id);
+          db.collection("MyTodoList").doc(doc.id).delete();
+          // console.log(this.collection);
+        });
+      });
+  }
+});
+
+db.collection("MyTodoList")
+  .get()
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      // console.log(doc.data());
+      console.log(doc.id);
+      db.collection("MyTodoList").doc(doc.id).delete();
+      // console.log(this.collection);
+    });
+  });
+
+// //----- Add button -----//
+// addBtn.addEventListener("click", (e) => {
+//   db.collection("MyTodoList").add({
+//     name: input.value, // getting the value from the input field
+//     isDone: false,
+//   });
+
+//   input.value = ""; // Clear input field
+// });
+
+//   //----- Deleting a task -----//
+//   if (delBtn) {
+//     delBtn.addEventListener("click", (e) => {
+//       e.stopPropagation();
+//       if (confirm("Are you sure?")) {
+//         let id = e.target.parentElement.id;
+//         db.collection("MyTodoList").doc(id).delete();
+//       }
+//     });
+//   }
