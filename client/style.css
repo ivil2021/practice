@@ -1,139 +1,147 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    height: 100vh;
-    background: lightgrey;
-    margin: 0 auto;
-    padding-top: 100px;
-  }
-  
-  .wrap {
-    width: 40%;
-    padding-bottom: 5px;
-    background: white;
-    border-radius: 10px;
-  }
-  
-  .header {
-    width: 100%;
-    background-color: lightbrown;
-    padding: 0;
-    color: white;
-    text-align: center;
-  }
-  
-  h2 {
-    font-size: 20px;
-  }
-  
-  #input {
-    width: 70%;
-    height: 20px;
-    border: 2px solid lightblue;
-    margin-bottom: 15px;
-    border-radius: 5px;
-  }
-  
-  #addBtn {
-    width: 15%;
-    border-radius: 5px;
-  }
-  
-  .header #addBtn:hover {
-    background-color: lightblue;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .btn {
-    background: lightgreen;
-    border: none;
-    color: white;
-    margin: 0 auto;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    z-index: 10;
-    position: relative;
-  }
-  
-  .li {
-    width: inherit;
-    height: 30px;
-    background: lightblue;
-    margin: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 5;
-    text-transform: capitalize;
-    border-radius: 5px;
-    padding-left: 10px;
-  }
-  
-  .li-completed {
-    color: lightbrown;
-    text-decoration: line-through;
-    background: lightgreen;
-  }
-  
-  .btn-delete-todo {
-    text-decoration: none;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-  }
-  
-  .btn-delete-todo:hover {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    text-decoration: none;
-    background-color: red;
-    color: white;
-  }
-  
-  .footer {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    height: 25px;
-    margin: 0 0 5px 0;
-    background-color: lightgrey;
-    align-items: center;
-    background: white;
-    border-radius: 10px;
-  }
-  
-  #total span {
-    margin: 0 auto;
-  }
-  
-  .footer button {
-    width: 15%;
-    height: 90%;
-    margin: 0;
-    padding: 10px auto;
-    background: lightgrey;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 5px;
-  }
-  
-  .footer button:hover {
-    background-color: lightblue;
-  }
-  
-  .hidden {
-    display: none;
-  }
+body {
+  height: 100vh;
+  background: lightgrey;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.wrap {
+  width: 40%;
+  padding-bottom: 5px;
+  background: white;
+  border-radius: 10px;
+}
+
+.header {
+  width: 100%;
+  background-color: lightbrown;
+  padding: 0;
+  color: white;
+  text-align: center;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+#input {
+  width: 70%;
+  height: 20px;
+  border: 2px solid lightblue;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+#addBtn {
+  width: 15%;
+  border-radius: 5px;
+}
+
+.header #addBtn:hover {
+  background-color: lightblue;
+}
+
+.btn {
+  background: lightgreen;
+  border: none;
+  color: white;
+  margin: 0 auto;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  position: relative;
+}
+
+.li {
+  width: inherit;
+  height: 30px;
+  background: lightblue;
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  text-transform: capitalize;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.li:hover {
+  /* box-shadow: 5px 5px 5px orange; */
+  /* box-shadow: 25px -25px 0 #f3c361;
+  background: black;
+  text-color: white; */
+  box-shadow: 0 0 0 3px orange;
+}
+
+.li-completed {
+  color: lightbrown;
+  text-decoration: line-through;
+  background: lightgreen;
+}
+
+.btn-delete-todo {
+  text-decoration: none;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.btn-delete-todo:hover {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  text-decoration: none;
+  background-color: red;
+  color: white;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 25px;
+  margin: 0 0 5px 0;
+  background-color: lightgrey;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+}
+
+#total span {
+  margin: 0 auto;
+}
+
+.footer button {
+  width: 15%;
+  height: 90%;
+  margin: 0;
+  padding: 10px auto;
+  background: lightgrey;
+  color: black;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.footer button:hover {
+  background-color: lightblue;
+}
+
+.hidden {
+  display: none;
+}
