@@ -172,21 +172,9 @@ document.querySelector('.clearAllBtn').addEventListener('click', (e) => {
     // - send request to firebase to clear todo collection
     // - if the request is success then todoList.clear();
 
-    /* todoList.clear();
-    todoListContainer.innerHTML = ''; // Clear ul
-
-    todosArrLengthUpdate(todoList);
-
-    // Deleting all documents from my collection
-    db.collection('MyTodoList')
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          // console.log(doc.id);
-          db.collection('MyTodoList').doc(doc.id).delete();
-        });
-      });*/
-
-    //console.log(db.collection('MyTodoList'));
+    for (let i = 0; i < idsToDelete.length; i++) {
+      console.log(idsToDelete[i]);
+      db.collection('MyTodoList').doc(idsToDelete[i]).delete();
+    }
   }
 });
