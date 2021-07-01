@@ -17,3 +17,19 @@
     }
   ]
 }
+
+
+
+
+
+    //---//---//---//---//
+    fetch("http://localhost:3333/todos/" + id, {
+        method: "PUT",
+        body: JSON.stringify(todo),
+        headers: {
+          "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+        },
+      }).then((res) => {
+
+      });
+      //---//---//---//---//
